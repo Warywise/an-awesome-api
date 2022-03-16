@@ -11,5 +11,5 @@ services:
     networks:
      - awesomePostgresNetwork
 networks:
-  awesomePostgresServer:
+  awesomePostgresNetwork:
     name: awesomePostgresNetwork
