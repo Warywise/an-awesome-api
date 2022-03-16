@@ -2,7 +2,7 @@
   "name": "an-awesome-api",
   "version": "1.0.0",
   "description": "API Rest desenvolvida com o intuito de fornecer dados para um front-end específico, que será um e-commerce.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "npm run build && node ./dist/index.js",
     "dev": "tsnd src/index.ts",
