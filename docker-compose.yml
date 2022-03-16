@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  awesome-postgres-server:
+    image: postgres:13-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: awesomeUser
+      POSTGRES_PASSWORD: awesomePass@123
+      POSTGRES_DB: awesomeDB
+    networks:
+     - awesomePostgresNetwork
+networks:
+  awesomePostgresNetwork:
+    name: awesomePostgresNetwork
