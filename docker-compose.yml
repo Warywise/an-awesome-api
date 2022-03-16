@@ -5,8 +5,11 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: defaultPostgresUser
-      POSTGRES_PASSWORD: defaultPostgres@123
-      POSTGRES_DB: defaultPostgress
+      POSTGRES_USER: awesomeUser
+      POSTGRES_PASSWORD: awesomePass@123
+      POSTGRES_DB: awesomeDB
     networks:
-     - awesomePostgresServer
+     - awesomePostgresNetwork
+networks:
+  awesomePostgresServer:
+    name: awesomePostgresNetwork
