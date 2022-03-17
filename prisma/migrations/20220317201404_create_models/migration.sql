@@ -64,11 +64,11 @@ CREATE TABLE "Sale" (
 );
 
 -- CreateTable
-CREATE TABLE "PayMethods" (
+CREATE TABLE "PayMethod" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(125),
 
-    CONSTRAINT "PayMethods_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PayMethod_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -81,6 +81,9 @@ CREATE TABLE "ProductSold" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "PayMethod_name_key" ON "PayMethod"("name");
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -95,7 +98,7 @@ ALTER TABLE "UserCard" ADD CONSTRAINT "UserCard_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "Sale" ADD CONSTRAINT "Sale_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Sale" ADD CONSTRAINT "Sale_payMethodId_fkey" FOREIGN KEY ("payMethodId") REFERENCES "PayMethods"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Sale" ADD CONSTRAINT "Sale_payMethodId_fkey" FOREIGN KEY ("payMethodId") REFERENCES "PayMethod"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProductSold" ADD CONSTRAINT "ProductSold_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

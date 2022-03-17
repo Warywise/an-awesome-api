@@ -19,12 +19,16 @@ model Product {
   hasDiscount   Boolean?
   discountValue Decimal?
   ProductsSold  ProductSold[]
+
+  @@map("Products")
 }
 
 model Category {
   id       Int       @id @default(autoincrement())
   products Product[]
-  name     String    @db.VarChar(125)
+  name     String    @unique @db.VarChar(125)
+
+  @@map("Categories")
 }
 
 model User {
@@ -37,6 +41,8 @@ model User {
   purchases Sale[]
   UserInfos UserAdress[]
   UserCard  UserCard[]
+
+  @@map("Users")
 }
 
 model UserAdress {
@@ -46,6 +52,8 @@ model UserAdress {
   district String @db.VarChar(65)
   city     String @db.VarChar(125)
   state    String @db.VarChar(65)
+
+  @@map("UserAdresses")
 }
 
 model UserCard {
@@ -54,6 +62,8 @@ model UserCard {
   cardNumber   String @db.VarChar(16)
   cardName     String @db.VarChar(125)
   cardValidity String @db.VarChar(4)
+
+  @@map("UserCards")
 }
 
 model Sale {
@@ -61,14 +71,19 @@ model Sale {
   user         User          @relation(fields: [userId], references: [id])
   userId       Int
   productsSold ProductSold[]
-  payMethod    PayMethods    @relation(fields: [payMethodId], references: [id])
+  payMethod    PayMethod    @relation(fields: [payMethodId], references: [id])
   payMethodId  Int
+  createdAt DateTime  @default(now())
+
+  @@map("Sales")
 }
 
-model PayMethods {
+model PayMethod {
   id    Int     @id @default(autoincrement())
-  name  String? @db.VarChar(125)
+  name  String? @unique @db.VarChar(125)
   sales Sale[]
+
+  @@map("PayMethods")
 }
 
 model ProductSold {
@@ -78,4 +93,5 @@ model ProductSold {
   productId Int
 
   @@id([saleId, productId])
+  @@map("ProductsSold")
 }
