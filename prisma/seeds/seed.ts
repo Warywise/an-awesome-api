@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-import { InsertType } from './interfaces';
+
+import { generateCategoriesData, generateProductsData } from './generators/generators';
 
 async function seedPayMethods() {
   const boleto = await prisma.payMethod.upsert({
@@ -25,12 +26,12 @@ async function seedPayMethods() {
 }
 
 async function seedCategories() {
-  const categoriesData: Promise<InsertType>[] = await generateCategoriesdata();
+  const categoriesData = await generateCategoriesData();
   await Promise.all(categoriesData);
 }
 
 async function seedProducts() {
-  const productsData: Promise<InsertType>[] = await generateProductsdata();
+  const productsData = await generateProductsData();
   await Promise.all(productsData);
 }
 

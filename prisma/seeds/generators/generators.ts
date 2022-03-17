@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-import { BrProvider, EuroProvider } from "../interfaces";
+import { BrProvider, EuroProvider, CreateProducts } from "../interfaces";
 import { BrazilianProvider } from "./BrProvider";
 import { EuropeanProvider } from "./EuroProvider";
 
@@ -33,6 +33,54 @@ export async function generateCategoriesData() {
       where: { name },
       update: {},
       create: { name }
+    })
+  ));
+}
+
+async function getProducts() {
+  const products: CreateProducts[] = [];
+  const categories = await getCategories();
+
+  await BrProviderPromise.then((data) => data
+    .forEach((product) => products.push(
+      {
+        name: product.nome,
+        description: product.descricao,
+        image: [product.imagem],
+        price: Number(product.preco),
+        categoryId: categories.findIndex((name) => name === product.categoria) + 1,
+        material: product.material,
+        provider: 'Brazilian Provider',
+      }
+    )
+  ));
+  
+  await EuroProviderPromise.then((data) => data
+  .forEach((product) => products.push(
+    {
+      name: product.name,
+      description: product.description,
+      image: product.gallery,
+      price: Number(product.price),
+      categoryId: categories.findIndex((name) => name === product.details.adjective) + 1,
+      material: product.details.material,
+      provider: 'European Provider',
+      hasDiscount: product.hasDiscount,
+      discountValue: Number(product.discountValue),
+    }
+  )
+  ));
+
+  return products;
+}
+
+export async function generateProductsData() {
+  const productsData = await getProducts();
+  return productsData.map((product) => (
+    prisma.product.upsert({
+      where: { name: product.name },
+      update: {},
+      create: product,
     })
   ));
 }

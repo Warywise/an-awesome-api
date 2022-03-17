@@ -32,15 +32,15 @@ export interface BrProvider {
 }
 
 export interface EuroProvider {
-  hasDiscout: boolean;
+  hasDiscount: boolean;
   name: string;
-  galery: string[];
+  gallery: string[];
   description: string;
   price: string;
   discountValue: string;
   details: {
     adjective: string;
-    matrrial: string;
+    material: string;
   }
   id: string;
 }
