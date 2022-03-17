@@ -28,17 +28,47 @@ model Category {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique @db.VarChar(125)
-  name      String? @db.VarChar(125)
+  id        Int          @id @default(autoincrement())
+  email     String       @unique @db.VarChar(125)
+  name      String       @db.VarChar(125)
+  lastName  String       @db.VarChar(125)
+  hash      String       @db.VarChar(255)
+  cpf       String?      @db.VarChar(11)
   purchases Sale[]
+  UserInfos UserAdress[]
+  UserCard  UserCard[]
+}
+
+model UserAdress {
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int    @id
+  adress   String @db.VarChar(125)
+  district String @db.VarChar(65)
+  city     String @db.VarChar(125)
+  state    String @db.VarChar(65)
+}
+
+model UserCard {
+  User         User   @relation(fields: [userId], references: [id])
+  userId       Int    @id
+  cardNumber   String @db.VarChar(16)
+  cardName     String @db.VarChar(125)
+  cardValidity String @db.VarChar(4)
 }
 
 model Sale {
-  id          Int           @id @default(autoincrement())
-  user        User          @relation(fields: [userId], references: [id])
-  userId      Int
-  ProductsSold ProductSold[]
+  id           Int           @id @default(autoincrement())
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int
+  productsSold ProductSold[]
+  payMethod    PayMethods    @relation(fields: [payMethodId], references: [id])
+  payMethodId  Int
+}
+
+model PayMethods {
+  id    Int     @id @default(autoincrement())
+  name  String? @db.VarChar(125)
+  sales Sale[]
 }
 
 model ProductSold {
