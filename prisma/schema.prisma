@@ -8,21 +8,47 @@ datasource db {
 }
 
 model Product {
-  id            Int       @id @default(autoincrement())
-  name          String    @db.VarChar(125)
-  description   String    @db.VarChar(255)
+  id            Int           @id @default(autoincrement())
+  name          String        @db.VarChar(125)
+  description   String        @db.VarChar(255)
   image         String[]
   price         Decimal
-  category      Category  @relation(fields: [categoryId], references: [id])
+  category      Category      @relation(fields: [categoryId], references: [id])
   categoryId    Int
-  material      String    @db.VarChar(65)
+  material      String        @db.VarChar(65)
   hasDiscount   Boolean?
   discountValue Decimal?
+  sales         Sale[]
+  ProductsSold   ProductSold[]
 }
 
 model Category {
-  id            Int       @id @default(autoincrement())
-  products      Product[]
-  name          String    @db.VarChar(125)
+  id       Int       @id @default(autoincrement())
+  products Product[]
+  name     String    @db.VarChar(125)
 }
 
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique @db.VarChar(125)
+  name      String? @db.VarChar(125)
+  purchases Sale[]
+}
+
+model Sale {
+  id          Int           @id @default(autoincrement())
+  user        User          @relation(fields: [userId], references: [id])
+  userId      Int
+  Product     Product?      @relation(fields: [productId], references: [id])
+  productId   Int?
+  ProductSold ProductSold[]
+}
+
+model ProductSold {
+  sale      Sale    @relation(fields: [saleId], references: [id])
+  saleId    Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@id([saleId, productId])
+}
