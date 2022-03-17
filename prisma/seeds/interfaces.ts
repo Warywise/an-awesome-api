@@ -11,10 +11,36 @@ export interface CreateProducts {
   material: string;
   hasDiscount?: boolean;
   discountValue?: number;
+  provider: string
 }
 
 export interface InsertType {
   where: { name: string },
   update: Record<string, never>,
   create: CreateCategories | CreateProducts,
+}
+
+export interface BrProvider {
+  nome: string;
+  descricao: string;
+  categoria: string;
+  imagem: string;
+  preco: string;
+  material: string;
+  departamento: string;
+  id: string;
+}
+
+export interface EuroProvider {
+  hasDiscout: boolean;
+  name: string;
+  galery: string[];
+  description: string;
+  price: string;
+  discountValue: string;
+  details: {
+    adjective: string;
+    matrrial: string;
+  }
+  id: string;
 }
