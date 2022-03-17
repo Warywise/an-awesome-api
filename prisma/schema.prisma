@@ -18,8 +18,7 @@ model Product {
   material      String        @db.VarChar(65)
   hasDiscount   Boolean?
   discountValue Decimal?
-  sales         Sale[]
-  ProductsSold   ProductSold[]
+  ProductsSold  ProductSold[]
 }
 
 model Category {
@@ -39,9 +38,7 @@ model Sale {
   id          Int           @id @default(autoincrement())
   user        User          @relation(fields: [userId], references: [id])
   userId      Int
-  Product     Product?      @relation(fields: [productId], references: [id])
-  productId   Int?
-  ProductSold ProductSold[]
+  ProductsSold ProductSold[]
 }
 
 model ProductSold {
