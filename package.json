@@ -4,6 +4,7 @@
   "description": "API Rest desenvolvida com o intuito de fornecer dados para um front-end específico, que será um e-commerce.",
   "main": "src/index.js",
   "scripts": {
+    "seed": "ts-node prisma/seeds/seed.ts",
     "start": "npm run build && node ./dist/index.js",
     "dev": "tsnd src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
