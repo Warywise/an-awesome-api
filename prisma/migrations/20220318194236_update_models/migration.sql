@@ -67,6 +67,7 @@ CREATE TABLE "Products" (
     "material" VARCHAR(65) NOT NULL,
     "hasDiscount" BOOLEAN,
     "discountValue" DECIMAL(65,30),
+    "provider" VARCHAR(65) NOT NULL,
 
     CONSTRAINT "Products_pkey" PRIMARY KEY ("id")
 );
@@ -86,7 +87,7 @@ CREATE TABLE "Users" (
     "name" VARCHAR(125) NOT NULL,
     "lastName" VARCHAR(125) NOT NULL,
     "hash" VARCHAR(255) NOT NULL,
-    "cpf" VARCHAR(11),
+    "cpf" VARCHAR(125),
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
@@ -108,6 +109,7 @@ CREATE TABLE "UserCards" (
     "cardNumber" VARCHAR(16) NOT NULL,
     "cardName" VARCHAR(125) NOT NULL,
     "cardValidity" VARCHAR(4) NOT NULL,
+    "cpf" VARCHAR(125) NOT NULL,
 
     CONSTRAINT "UserCards_pkey" PRIMARY KEY ("userId")
 );
@@ -137,6 +139,9 @@ CREATE TABLE "ProductsSold" (
 
     CONSTRAINT "ProductsSold_pkey" PRIMARY KEY ("saleId","productId")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Categories_name_key" ON "Categories"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");

@@ -38,7 +38,7 @@ model User {
   name      String       @db.VarChar(125)
   lastName  String       @db.VarChar(125)
   hash      String       @db.VarChar(255)
-  cpf       String?      @db.VarChar(11)
+  cpf       String?      @db.VarChar(125)
   purchases Sale[]
   userInfos UserAdress[]
   userCard  UserCard[]
@@ -58,11 +58,12 @@ model UserAdress {
 }
 
 model UserCard {
-  User         User   @relation(fields: [userId], references: [id])
+  user         User   @relation(fields: [userId], references: [id])
   userId       Int    @id
   cardNumber   String @db.VarChar(16)
   cardName     String @db.VarChar(125)
   cardValidity String @db.VarChar(4)
+  cpf          String @db.VarChar(125)
 
   @@map("UserCards")
 }
