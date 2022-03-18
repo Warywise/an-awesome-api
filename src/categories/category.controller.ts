@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import CategoryService from './category.service';
-import StatusCode from '../enumStatusCodes';
+import StatusCode from '../utils/enumStatusCodes';
 
 export default class CategoryController extends CategoryService {
 
