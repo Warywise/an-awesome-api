@@ -2,8 +2,8 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 import { BrProvider, EuroProvider, CreateProducts } from '../interfaces';
-import { BrazilianProvider } from './BrProvider';
-import { EuropeanProvider } from './EuroProvider';
+import { BrazilianProvider } from './BrProviderMock';
+import { EuropeanProvider } from './EuroProviderMock';
 
 const BrProviderPromise: Promise<BrProvider[]> = new Promise((resolve) => setTimeout(
   resolve, 300, BrazilianProvider
@@ -91,7 +91,7 @@ export async function generateProductsData() {
     });
 
     return productExists
-      ? console.log(`Product already exists: ${product}`)
+      ? `!!! Product already exists: ${product} !!!`
       : (prisma.product.create({ data: product, }));
   });
 }

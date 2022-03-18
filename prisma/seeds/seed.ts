@@ -22,17 +22,24 @@ async function seedPayMethods() {
     create: { name: 'credito' }
   });
 
-  console.log({ boleto, debito, credito });
+  boleto; debito; credito; /* lint warning */
+  // console.log({ boleto, debito, credito }); /* descomente caso queira acompanhar o seed */
 }
 
 async function seedCategories() {
   const categoriesData = await generateCategoriesData();
-  await Promise.all(categoriesData);
+  const seedCategoriesResult = await Promise.all(categoriesData);
+
+  seedCategoriesResult; /* lint warning */
+  // console.log(seedCategoriesResult); /* descomente caso queira acompanhar o seed */
 }
 
 async function seedProducts() {
   const productsData = await generateProductsData();
-  await Promise.all(productsData);
+  const seedProductsResult = await Promise.all(productsData);
+
+  seedProductsResult; /* lint warning */
+  // console.log(seedProductsResult); /* descomente caso queira acompanhar o seed */
 }
 
 async function seedAll() {
@@ -42,8 +49,8 @@ async function seedAll() {
 }
 
 seedAll()
-  .catch((e) => {
-    console.error(e);
+  .catch((err) => {
+    console.error(err);
     process.exit(1);
   })
   .finally(async () => {

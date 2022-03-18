@@ -2,8 +2,7 @@ export interface CreateCategories {
   name: string;
 }
 
-export interface CreateProducts {
-  name: string;
+export interface CreateProducts extends CreateCategories {
   description: string;
   image: string[];
   price: number;
@@ -31,9 +30,8 @@ export interface BrProvider {
   id: string;
 }
 
-export interface EuroProvider {
+export interface EuroProvider extends CreateCategories {
   hasDiscount: boolean;
-  name: string;
   gallery: string[];
   description: string;
   price: string;
