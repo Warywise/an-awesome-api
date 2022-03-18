@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
-export default class CategoryService {
-  prisma: PrismaClient;
+export default abstract class CategoryService {
+  private prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
   }
 
-  async getAll() {
+  protected async getAllCategories() {
     return this.prisma.category.findMany();
   }
 }
