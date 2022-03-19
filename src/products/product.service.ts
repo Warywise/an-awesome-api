@@ -28,8 +28,8 @@ export default class ProductService {
     };
   }
 
-  async getProductsByCategory(name: string) {
-    if (typeof name !== 'string') return {
+  async getProductsByCategory(categoryName: string) {
+    if (typeof categoryName !== 'string') return {
       code: StatusCode.BAD_REQUEST,
       error: 'Field "Category Name" must be a string'
     };
@@ -37,7 +37,7 @@ export default class ProductService {
     const products = await this.prisma.category.findFirst({
       where: {
         name: {
-          contains: name,
+          contains: categoryName,
           mode: 'insensitive',
       } },
       select: {
@@ -56,6 +56,27 @@ export default class ProductService {
     return products?.products ?? {
       code: StatusCode.NOT_FOUND,
       error: 'Product\'s category not found'
+    };
+  }
+
+  async getProductsByQuery(query: string) {
+    if (typeof query !== 'string') return {
+      code: StatusCode.BAD_REQUEST,
+      error: 'Field "Query" must be a string'
+    };
+
+    const products = await this.prisma.product.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      }
+    });
+
+    return products ?? {
+      code: StatusCode.NOT_FOUND,
+      error: 'Product name not found'
     };
   }
 }
