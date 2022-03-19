@@ -35,4 +35,16 @@ export default class ProductController {
 
     return res.status(StatusCode.OK).json(products);
   }
+
+  async getByQuery(req: Request, res: Response) {
+    const { name } = req.query;
+    const products = await Product.getProductsByQuery(`${name}`);
+
+    if ('error' in products) {
+      const { code, error } = products;
+      return res.status(code).json({ error });
+    }
+
+    return res.status(StatusCode.OK).json(products);
+  }
 }

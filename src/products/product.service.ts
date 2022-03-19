@@ -65,6 +65,11 @@ export default class ProductService {
       error: 'Field "Query" must be a string'
     };
 
+    if (query.length < 1) return {
+      code: StatusCode.BAD_REQUEST,
+      error: 'Query must be at least one letter long'
+    };
+
     const products = await this.prisma.product.findMany({
       where: {
         name: {
