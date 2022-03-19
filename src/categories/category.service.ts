@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-export default class CategoryService {
+class CategoryService {
   private prisma: PrismaClient;
 
   constructor() {
@@ -11,3 +11,5 @@ export default class CategoryService {
     return await this.prisma.category.findMany();
   }
 }
+
+export default new CategoryService();
