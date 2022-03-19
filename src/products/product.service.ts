@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import StatusCode from '../utils/enumStatusCodes';
 
-export default class ProductService {
+class ProductService {
   private prisma: PrismaClient;
 
   constructor() {
@@ -85,3 +85,5 @@ export default class ProductService {
     };
   }
 }
+
+export default new ProductService();
