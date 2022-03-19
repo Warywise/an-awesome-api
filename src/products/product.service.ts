@@ -34,8 +34,12 @@ export default class ProductService {
       error: 'Field "Category Name" must be a string'
     };
 
-    const products = await this.prisma.category.findUnique({
-      where: { name },
+    const products = await this.prisma.category.findFirst({
+      where: {
+        name: {
+          contains: name,
+          mode: 'insensitive',
+      } },
       select: {
         products: {
           include: {
