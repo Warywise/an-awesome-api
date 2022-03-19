@@ -25,6 +25,33 @@ export default class ProductService {
     return product ?? {
       code: StatusCode.NOT_FOUND,
       error: 'Product not found'
-    }
+    };
+  }
+
+  async getProductsByCategory(name: string) {
+    if (typeof name !== 'string') return {
+      code: StatusCode.BAD_REQUEST,
+      error: 'Field "Category Name" must be a string'
+    };
+
+    const products = await this.prisma.category.findUnique({
+      where: { name },
+      select: {
+        products: {
+          include: {
+            category: {
+              select: {
+                name: true,
+              }
+            }
+          }
+        },
+      }
+    });
+
+    return products?.products ?? {
+      code: StatusCode.NOT_FOUND,
+      error: 'Product\'s category not found'
+    };
   }
 }
