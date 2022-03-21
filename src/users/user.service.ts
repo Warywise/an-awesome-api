@@ -102,11 +102,14 @@ class UserService {
     return userVerify ?? userResult;
   }
 
-  async createUser(newUserData: NewUser) {
+  async createOrUpdateUser(newUserData: NewUser) {
     newUserData.hash = await argon.hash(newUserData.hash);
+    const newData = { ...newUserData, active: true };
 
-    const newUser = await this.prisma.user.create({
-      data: newUserData,
+    const newUser = await this.prisma.user.upsert({
+      where: { email: newData.email },
+      create: newData,
+      update: newData,
       select: {
         id: true,
         name: true,
