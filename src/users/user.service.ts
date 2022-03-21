@@ -103,6 +103,8 @@ class UserService {
   }
 
   async createUser(newUserData: NewUser) {
+    newUserData.hash = await argon.hash(newUserData.hash);
+
     const newUser = await this.prisma.user.create({
       data: newUserData,
       select: {
@@ -119,6 +121,8 @@ class UserService {
   }
 
   async updateUser(userData: NewUser) {
+    if (userData.hash) userData.hash = await argon.hash(userData.hash);
+
     const newData = await this.prisma.user.update({
       where: { email: userData.email },
       data: userData,
