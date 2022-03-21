@@ -39,6 +39,8 @@ model User {
   lastName  String       @db.VarChar(125)
   hash      String       @db.VarChar(255)
   cpf       String?      @db.VarChar(125)
+  token     String?      @db.VarChar(125)
+  active    Boolean      @default(true)
   purchases Sale[]
   userInfos UserAdress[]
   userCard  UserCard[]
