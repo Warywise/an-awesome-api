@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import argon from 'argon2';
+import { NewUser } from '../interfaces/users';
 import StatusCode from '../utils/enumStatusCodes';
 
-type userToken = { token: string };
+type userToken = { email: string, token?: string };
 
 class UserService {
   private prisma: PrismaClient;
@@ -11,13 +12,15 @@ class UserService {
     this.prisma = new PrismaClient();
   }
 
-  private async userVerifier(user: userToken | null, token: string) {
+  private async userVerifier(user: userToken | null, token: string | null = null) {
     if (!user) return {
       code: StatusCode.NOT_FOUND,
       error: 'User not found'
     };
 
-    const userAuth = await argon.verify(user.token as string, token);
+    const userAuth = token
+      ? await argon.verify(user.token as string, token)
+      : true;
 
     return userAuth ? null
       : {
@@ -83,5 +86,52 @@ class UserService {
     };
 
     return userAuth ?? processUserInfos;
+  }
+
+  async verifyUserCondition(email: string) {
+    const userResult = await this.prisma.user.findUnique({
+      where: { email },
+      select: {
+        email: true,
+        active: true,
+      }
+    });
+
+    const userVerify = await this.userVerifier(userResult as userToken);
+
+    return userVerify ?? userResult;
+  }
+
+  async createUser(newUserData: NewUser) {
+    const newUser = await this.prisma.user.create({
+      data: newUserData,
+      select: {
+        id: true,
+        name: true,
+        lastName: true,
+        email: true,
+        token: true,
+        active: true,
+      }
+    });
+
+    return newUser;
+  }
+
+  async updateUser(userData: NewUser) {
+    const newData = await this.prisma.user.update({
+      where: { email: userData.email },
+      data: userData,
+      select: {
+        id: true,
+        name: true,
+        lastName: true,
+        email: true,
+        token: true,
+        active: true,
+      }
+    });
+
+    return newData;
   }
 }
