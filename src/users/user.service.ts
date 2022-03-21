@@ -138,4 +138,47 @@ class UserService {
 
     return newData;
   }
+
+  async disableUser(email: string, hash: string, token: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        hash: true,
+        token: true,
+        active: true,
+      }
+    });
+
+    const userAuth = await this.userVerifier(user as userToken, token);
+
+    if (userAuth) return userAuth;
+
+    const hashAuth = await argon.verify(user?.hash as string, hash);
+
+    if (hashAuth) {
+      await this.prisma.userAdress.deleteMany({
+        where: { userId: user?.id }
+      });
+
+      await this.prisma.userCard.deleteMany({
+        where: { userId: user?.id }
+      });
+
+      return await this.prisma.user.update({
+        where: { email },
+        data: { active: false },
+        select: {
+          email: true,
+          active: true,
+        }
+      });
+    }
+
+    return {
+      code: StatusCode.UNAUTHORIZED_USER,
+      error: 'Access denied'
+    };
+  }
 }
