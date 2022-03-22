@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import argon from 'argon2';
 import { NewUser } from '../interfaces/users';
 import StatusCode from '../utils/enumStatusCodes';
 
-type userToken = { email: string, token?: string };
+type userToken = { token?: string };
 
 class UserService {
   private prisma: PrismaClient;
@@ -44,7 +44,7 @@ class UserService {
 
     const userAuth = await this.userVerifier(user as userToken, token);
 
-    return userAuth ?? user;
+    return userAuth ?? user as User;
   }
 
   async getUserInfosByEmail(email: string, token: string) {
