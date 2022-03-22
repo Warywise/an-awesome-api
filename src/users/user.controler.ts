@@ -4,11 +4,12 @@ import { Controller, Get, Post } from '@decorators/express';
 import UserService from './user.service';
 import { VerifyEmail, VerifyHash, VerifyUserData } from '../middlewares/users';
 import StatusCode from '../utils/enumStatusCodes';
+import { VerifyToken } from '../middlewares/token';
 
 @Controller('/users')
 export default class UserController {
 
-  @Get('', [VerifyEmail])
+  @Get('', [VerifyToken, VerifyEmail])
   async getUser(req: Request, res: Response) {
     try {
       const { body: { email }, headers: { authorization } } = req;
@@ -26,7 +27,7 @@ export default class UserController {
     }
   }
 
-  @Get('/infos', [VerifyEmail])
+  @Get('/infos', [VerifyToken, VerifyEmail])
   async getUserInfos(req: Request, res: Response) {
     try {
       const { body: { email }, headers: { authorization } } = req;
@@ -56,6 +57,19 @@ export default class UserController {
       }
       return res.status(StatusCode.OK).json(userInfos);
 
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
+    }
+  }
+
+  @Post('', [VerifyToken, VerifyUserData])
+  async upsertUser(req: Request, res: Response) {
+    try {
+      const userData = req.body;
+      const userResult = await UserService.createOrUpdateUser(userData);
+
+      return res.status(StatusCode.OK).json(userResult);
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);
       if (typeof error === 'string') throw Error(error);

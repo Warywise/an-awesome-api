@@ -37,6 +37,7 @@ class UserService {
         name: true,
         lastName: true,
         email: true,
+        cpf: true,
         token: true,
         active: true,
       }
