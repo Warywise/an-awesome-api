@@ -1,14 +1,15 @@
-import { Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { Middleware } from '@decorators/express';
 import StatusCode from '../utils/enumStatusCodes';
 
-export default class TokenMiddleware {
-  protected verifyToken(req: Request) {
+export class VerifyToken implements Middleware{
+  public use(req: Request, res: Response, next: NextFunction) {
     const { authorization: token } = req.headers;
 
-    return typeof token === 'string' ? null
-      : {
-        code: StatusCode.UNAUTHORIZED_USER,
-        error: 'Missing authorization token'
-      };
+    if (!token || typeof token !== 'string') {
+      return res.status(StatusCode.UNAUTHORIZED_USER).json({ error: 'Missing authorization token' });
+    }
+
+    next();
   }
 }

@@ -2,16 +2,9 @@ import { Middleware } from '@decorators/express';
 import { NextFunction, Request, Response } from 'express';
 import StatusCode from '../utils/enumStatusCodes';
 import { joiEmail, joiHash, joiUserData } from './joiObjects/users';
-import TokenMiddleware from './token';
 
-export class VerifyEmail extends TokenMiddleware implements Middleware{
+export class VerifyEmail implements Middleware {
   public use(req: Request, res: Response, next: NextFunction) {
-    const missingToken = this.verifyToken(req);
-    if (missingToken) {
-      const { code, error } = missingToken;
-      return res.status(code).json({ error });
-    }
-
     const email = req.body;
     const { error: err } = joiEmail.validate(email);
 
