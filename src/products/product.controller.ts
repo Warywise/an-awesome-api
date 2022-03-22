@@ -11,8 +11,8 @@ export default class ProductController {
   async getAll(_req: Request, res: Response) {
     try {
       const allProducts = await ProductService.getAllProducts();
-
       return res.status(StatusCode.OK).json(allProducts);
+
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);
       if (typeof error === 'string') throw Error(error);
@@ -29,8 +29,8 @@ export default class ProductController {
         const { code, error } = products;
         return res.status(code).json({ error });
       }
-
       return res.status(StatusCode.OK).json(products);
+
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);
       if (typeof error === 'string') throw Error(error);
@@ -47,8 +47,8 @@ export default class ProductController {
         const { code, error } = products;
         return res.status(code).json({ error });
       }
-
       return res.status(StatusCode.OK).json(products);
+
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);
       if (typeof error === 'string') throw Error(error);
@@ -65,8 +65,8 @@ export default class ProductController {
         const { code, error } = product;
         return res.status(code).json({ error });
       }
-
       return res.status(StatusCode.OK).json(product);
+
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);
       if (typeof error === 'string') throw Error(error);
