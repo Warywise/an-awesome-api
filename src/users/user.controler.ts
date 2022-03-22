@@ -43,4 +43,22 @@ export default class UserController {
       if (typeof error === 'string') throw Error(error);
     }
   }
+
+  @Get('/:email')
+  async getUserCondition(req: Request, res: Response) {
+    try {
+      const { email } = req.params;
+      const userInfos = await UserService.verifyUserCondition(email);
+
+      if ('error' in userInfos) {
+        const { code, error } = userInfos;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.OK).json(userInfos);
+
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
+    }
+  }
 }

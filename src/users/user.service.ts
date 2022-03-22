@@ -99,7 +99,7 @@ class UserService {
 
     const userVerify = await this.userVerifier(userResult as userToken);
 
-    return userVerify ?? userResult;
+    return userVerify ?? userResult as User;
   }
 
   async createOrUpdateUser(newUserData: NewUser) {
