@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Get, Post } from '@decorators/express';
+import { Controller, Delete, Get, Post, Put } from '@decorators/express';
 
 import UserService from './user.service';
 import { VerifyEmail, VerifyHash, VerifyUserData } from '../middlewares/users';
@@ -63,13 +63,51 @@ export default class UserController {
     }
   }
 
-  @Post('', [VerifyToken, VerifyUserData])
+  @Post('', [VerifyUserData])
   async upsertUser(req: Request, res: Response) {
     try {
       const userData = req.body;
       const userResult = await UserService.createOrUpdateUser(userData);
 
       return res.status(StatusCode.OK).json(userResult);
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
+    }
+  }
+
+  @Put('', [VerifyToken, VerifyUserData])
+  async updateUser(req: Request, res: Response) {
+    try {
+      const { body: userData, headers: { authorization: token } } = req;
+      const userResult = await UserService.updateUser(userData, token as string);
+
+      if ('error' in userResult) {
+        const { code, error } = userResult;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.OK).json(userResult);
+
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
+    }
+  }
+
+  @Delete('', [VerifyToken, VerifyHash])
+  async disableUser(req: Request, res: Response) {
+    try {
+      const {
+        body: { email, hash }, headers: { authorization: token }
+      } = req;
+      const userResult = await UserService.disableUser(email, hash, token as string);
+
+      if ('error' in userResult) {
+        const { code, error } = userResult;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.OK).json(userResult);
+
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);
       if (typeof error === 'string') throw Error(error);

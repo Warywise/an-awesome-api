@@ -16,6 +16,6 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.use((
   err: Error, _req: Request, res: Response, _next: NextFunction
-) => res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error: err.message ?? err}));
+) => res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error: err.message ?? err }));
 
 export default app;
