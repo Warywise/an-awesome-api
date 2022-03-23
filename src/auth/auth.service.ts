@@ -1,6 +1,8 @@
 import { PrismaClient, User } from '@prisma/client';
 import argon from 'argon2';
 import jwt from 'jsonwebtoken';
+import { v4 as uuid } from 'uuid';
+
 import StatusCode from '../utils/enumStatusCodes';
 
 class AuthService {
@@ -33,18 +35,19 @@ class AuthService {
       code: StatusCode.UNAUTHORIZED_USER,
       error: 'Invalid email or password',
     };
-    const { id, name, lastName, active } = user;
+    const { name, lastName, active } = user;
 
-    const tokenObj = { id, email };
+    const tokenObj = { tkId: uuid(), email };
     const token = jwt.sign(tokenObj, '');
+    const hashToken = await argon.hash(token);
 
     await this.prisma.user.update({
       where: { email },
-      data: { token },
+      data: { token: hashToken },
     });
 
     return {
-      ...tokenObj,
+      email,
       name: name ? `${name} ${lastName}` : null,
       token,
       active,
@@ -67,6 +70,36 @@ class AuthService {
       where: { email },
       data: { token: null },
     });
+  }
+
+  async refreshToken(email: string, currentToken: string) {
+    const user = await this.getUser(email);
+
+    if ('error' in user) return user;
+
+    const userAuth = await argon.verify(user.token as string, currentToken);
+
+    if (!userAuth) return {
+      code: StatusCode.UNAUTHORIZED_USER,
+      error: 'Invalid email or password',
+    };
+    const { name, lastName, active } = user;
+
+    const tokenObj = { tkId: uuid(), email };
+    const token = jwt.sign(tokenObj, '');
+    const hashToken = await argon.hash(token);
+
+    await this.prisma.user.update({
+      where: { email },
+      data: { token: hashToken },
+    });
+
+    return {
+      email,
+      name: name ? `${name} ${lastName}` : null,
+      token,
+      active,
+    };
   }
 }
 
