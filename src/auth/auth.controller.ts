@@ -28,4 +28,21 @@ export default class AuthController {
     }
   }
 
+  @Post('/logout', [VerifyToken, VerifyEmail])
+  async logout(req: Request, res: Response) {
+    try {
+      const { body: { email }, headers: { authorization: token } } = req;
+      const userLogout = await AuthService.logout(email, token as string);
+
+      if (userLogout) {
+        const { code, error } = userLogout;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.OK).end();
+
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
+    }
+  }
 }
