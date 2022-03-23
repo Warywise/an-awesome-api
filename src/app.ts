@@ -1,4 +1,4 @@
-import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 
 import Routers from './routers';
@@ -15,7 +15,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.use((
-  err: ErrorRequestHandler, _req: Request, res: Response, _next: NextFunction
-) => res.status(StatusCode.INTERNAL_SERVER_ERROR).json(err));
+  err: Error, _req: Request, res: Response, _next: NextFunction
+) => res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error: err.message ?? err }));
 
 export default app;

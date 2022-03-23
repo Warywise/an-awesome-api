@@ -33,15 +33,17 @@ model Category {
 }
 
 model User {
-  id        Int          @id @default(autoincrement())
-  email     String       @unique @db.VarChar(125)
-  name      String       @db.VarChar(125)
-  lastName  String       @db.VarChar(125)
-  hash      String       @db.VarChar(255)
-  cpf       String?      @db.VarChar(125)
-  purchases Sale[]
-  userInfos UserAdress[]
-  userCard  UserCard[]
+  id         Int          @id @default(autoincrement())
+  email      String       @unique @db.VarChar(125)
+  name       String       @db.VarChar(125)
+  lastName   String       @db.VarChar(125)
+  hash       String       @db.VarChar(255)
+  cpf        String?      @db.VarChar(125)
+  token      String?      @db.VarChar(125)
+  active     Boolean      @default(true)
+  purchases  Sale[]
+  userAdress UserAdress[]
+  userCard   UserCard[]
 
   @@map("Users")
 }
@@ -62,7 +64,7 @@ model UserCard {
   userId       Int    @id
   cardNumber   String @db.VarChar(16)
   cardName     String @db.VarChar(125)
-  cardValidity String @db.VarChar(4)
+  cardValidity String @db.VarChar(5)
   cpf          String @db.VarChar(125)
 
   @@map("UserCards")
