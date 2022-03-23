@@ -2,14 +2,17 @@ import { PrismaClient, User } from '@prisma/client';
 import argon from 'argon2';
 import jwt from 'jsonwebtoken';
 import { v4 as uuid } from 'uuid';
+import 'dotenv/config';
 
 import StatusCode from '../utils/enumStatusCodes';
 
 class AuthService {
   private prisma: PrismaClient;
+  private secret: string;
 
   constructor() {
     this.prisma = new PrismaClient();
+    this.secret = process.env.SECRET as string;
   }
 
   private async getUser(email: string) {
@@ -38,7 +41,7 @@ class AuthService {
     const { name, lastName, active } = user;
 
     const tokenObj = { tkId: uuid(), email };
-    const token = jwt.sign(tokenObj, '');
+    const token = jwt.sign(tokenObj, this.secret);
     const hashToken = await argon.hash(token);
 
     await this.prisma.user.update({
@@ -86,7 +89,7 @@ class AuthService {
     const { name, lastName, active } = user;
 
     const tokenObj = { tkId: uuid(), email };
-    const token = jwt.sign(tokenObj, '');
+    const token = jwt.sign(tokenObj, this.secret);
     const hashToken = await argon.hash(token);
 
     await this.prisma.user.update({
