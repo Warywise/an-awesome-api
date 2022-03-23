@@ -38,7 +38,25 @@ export default class AuthController {
         const { code, error } = userLogout;
         return res.status(code).json({ error });
       }
-      return res.status(StatusCode.OK).end();
+      return res.status(StatusCode.NO_CONTENT).end();
+
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
+    }
+  }
+
+  @Post('/refresh', [VerifyToken, VerifyEmail])
+  async refreshToken(req: Request, res: Response) {
+    try {
+      const { body: { email }, headers: { authorization: token } } = req;
+      const userRefreshToken = await AuthService.refreshToken(email, token as string);
+
+      if ('error' in userRefreshToken) {
+        const { code, error } = userRefreshToken;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.OK).json(userRefreshToken);
 
     } catch (error) {
       if (error instanceof Error) throw Error(error.message);

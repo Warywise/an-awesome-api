@@ -84,7 +84,7 @@ class AuthService {
 
     if (!userAuth) return {
       code: StatusCode.UNAUTHORIZED_USER,
-      error: 'Invalid email or password',
+      error: 'Acess Denied',
     };
     const { name, lastName, active } = user;
 
