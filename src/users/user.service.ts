@@ -1,32 +1,15 @@
 import { PrismaClient, User } from '@prisma/client';
 import argon from 'argon2';
-import { NewUser } from '../interfaces/users';
+import { NewUser, UserType } from '../interfaces/users';
 import StatusCode from '../utils/enumStatusCodes';
+import UserVerifier from './userVerifier';
 
-type userType = { token?: string, hash?: string };
-
-class UserService {
+class UserService extends UserVerifier {
   private prisma: PrismaClient;
 
   constructor() {
+    super();
     this.prisma = new PrismaClient();
-  }
-
-  private async userVerifier(user: userType | null, token: string | null = null) {
-    if (!user) return {
-      code: StatusCode.NOT_FOUND,
-      error: 'User not found'
-    };
-
-    const userAuth = token
-      ? await argon.verify(user.token as string, token)
-      : true;
-
-    return userAuth ? null
-      : {
-        code: StatusCode.UNAUTHORIZED_USER,
-        error: 'Access denied'
-      };
   }
 
   async getUserByEmail(email: string, token: string) {
@@ -43,7 +26,7 @@ class UserService {
       }
     });
 
-    const userAuth = await this.userVerifier(user as userType, token);
+    const userAuth = await this.userVerifier(user as UserType, token);
 
     return userAuth ?? user as User;
   }
@@ -74,7 +57,7 @@ class UserService {
       error: 'User not found'
     };
 
-    const userAuth = await this.userVerifier(userInfos as userType, token);
+    const userAuth = await this.userVerifier(userInfos as UserType, token);
 
     const processUserInfos = {
       userAdresses: userInfos.userAdress,
@@ -98,7 +81,7 @@ class UserService {
       }
     });
 
-    const userVerify = await this.userVerifier(userResult as userType);
+    const userVerify = await this.userVerifier(userResult as UserType);
 
     return userVerify ?? userResult as User;
   }
@@ -138,7 +121,7 @@ class UserService {
         hash: true,
         token: true,
       }
-    }) as userType;
+    }) as UserType;
 
     if (userData.hash) {
       const userAuth = await argon.verify(user.hash as string, userData.hash);
@@ -185,7 +168,7 @@ class UserService {
       }
     });
 
-    const userAuth = await this.userVerifier(user as userType, token);
+    const userAuth = await this.userVerifier(user as UserType, token);
 
     if (userAuth) return userAuth;
 

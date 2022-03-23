@@ -5,3 +5,8 @@ export interface NewUser {
   hash: string,
   cpf?: string,
 }
+
+export interface UserType {
+  token?: string,
+  hash?: string
+}
