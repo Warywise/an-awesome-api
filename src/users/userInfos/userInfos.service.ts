@@ -3,7 +3,7 @@ import { PrismaClient, User } from '@prisma/client';
 import UserVerifier from '../userVerifier';
 import { userAdress, userCard, UserType } from '../../interfaces/users';
 
-class UserInfos extends UserVerifier {
+class UserInfosService extends UserVerifier {
   private prisma: PrismaClient;
 
   constructor() {
@@ -50,4 +50,4 @@ class UserInfos extends UserVerifier {
   }
 }
 
-export default new UserInfos();
+export default new UserInfosService();

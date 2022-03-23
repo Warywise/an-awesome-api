@@ -16,3 +16,10 @@ export const joiUserData = Joi.object({
   lastName: Joi.string().min(2).required(),
   cpf: Joi.string().regex(/^(\d{3}\.){2}\d{3}-\d{2}$/),
 });
+
+export const joiAdress = Joi.object({
+  adress: Joi.string().min(7).required(),
+  city: Joi.string().min(3).required(),
+  district: Joi.string().min(3).required(),
+  state: Joi.string().min(2).required(),
+});
