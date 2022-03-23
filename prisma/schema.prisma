@@ -64,7 +64,7 @@ model UserCard {
   userId       Int    @id
   cardNumber   String @db.VarChar(16)
   cardName     String @db.VarChar(125)
-  cardValidity String @db.VarChar(4)
+  cardValidity String @db.VarChar(5)
   cpf          String @db.VarChar(125)
 
   @@map("UserCards")
