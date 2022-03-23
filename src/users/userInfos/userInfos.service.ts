@@ -24,6 +24,16 @@ class UserInfos extends UserVerifier {
 
     return userAuth ?? user as User;
   }
+
+  async createUserAdress(email: string, adress: any, token: string) {
+    const userAuth = await this.validateUser(email, token);
+
+    if ('error' in userAuth) return userAuth;
+
+    return await this.prisma.userAdress.create({
+      data: adress,
+    });
+  }
 }
 
 export default new UserInfos();
