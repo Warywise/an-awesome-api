@@ -50,6 +50,24 @@ class AuthService {
       active,
     };
   }
+
+  async logout(email: string, token: string) {
+    const user = await this.getUser(email);
+
+    if ('error' in user) return user;
+
+    const userAuth = await argon.verify(user.token as string, token);
+
+    if (!userAuth) return {
+      code: StatusCode.UNAUTHORIZED_USER,
+      error: 'Acess Denied',
+    };
+
+    await this.prisma.user.update({
+      where: { email },
+      data: { token: null },
+    });
+  }
 }
 
 export default new AuthService();
