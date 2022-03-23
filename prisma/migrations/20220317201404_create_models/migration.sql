@@ -49,7 +49,7 @@ CREATE TABLE "UserCard" (
     "userId" INTEGER NOT NULL,
     "cardNumber" VARCHAR(16) NOT NULL,
     "cardName" VARCHAR(125) NOT NULL,
-    "cardValidity" VARCHAR(4) NOT NULL,
+    "cardValidity" VARCHAR(5) NOT NULL,
 
     CONSTRAINT "UserCard_pkey" PRIMARY KEY ("userId")
 );

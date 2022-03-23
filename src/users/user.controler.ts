@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Delete, Get, Post, Put } from '@decorators/express';
 
 import UserService from './user.service';
-import { VerifyEmail, VerifyHash, VerifyUserData } from '../middlewares/users';
+import { VerifyEmail, VerifyHash, VerifyUserData } from '../middlewares/userMiddlewares';
 import StatusCode from '../utils/enumStatusCodes';
 import { VerifyToken } from '../middlewares/token';
 
