@@ -1,9 +1,9 @@
 import { PrismaClient, User } from '@prisma/client';
 
-import UserVerifier from '../userVerifier';
+import Verifier from '../../superClass/verifier';
 import { userAdress, userCard, UserType } from '../../interfaces/users';
 
-class UserInfosService extends UserVerifier {
+class UserInfosService extends Verifier {
   private prisma: PrismaClient;
 
   constructor() {

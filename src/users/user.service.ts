@@ -2,9 +2,9 @@ import { PrismaClient, User } from '@prisma/client';
 import argon from 'argon2';
 import { NewUser, UserType } from '../interfaces/users';
 import StatusCode from '../utils/enumStatusCodes';
-import UserVerifier from './userVerifier';
+import Verifier from '../superClass/verifier';
 
-class UserService extends UserVerifier {
+class UserService extends Verifier {
   private prisma: PrismaClient;
 
   constructor() {
