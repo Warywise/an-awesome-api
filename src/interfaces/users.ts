@@ -11,14 +11,14 @@ export interface UserType {
   hash?: string
 }
 
-export interface userAdress {
+export interface UserAdress {
   adress: string,
   city: string,
   district: string,
   state: string,
 }
 
-export interface userCard {
+export interface UserCard {
   cardNumber: string,
   cardName: string,
   cardValidity: string,

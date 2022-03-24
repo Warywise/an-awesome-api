@@ -1,10 +1,12 @@
 import { PrismaClient, User } from '@prisma/client';
 import StatusCode from '../utils/enumStatusCodes';
+import Verifier from './verifier';
 
-export default abstract class Getter {
+export default abstract class Getter extends Verifier {
   protected prisma: PrismaClient;
 
   constructor() {
+    super();
     this.prisma = new PrismaClient();
   }
 
