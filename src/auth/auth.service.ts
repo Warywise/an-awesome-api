@@ -4,27 +4,15 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuid } from 'uuid';
 import 'dotenv/config';
 
+import Getter from '../superClass/getter';
 import StatusCode from '../utils/enumStatusCodes';
 
-class AuthService {
-  private prisma: PrismaClient;
+class AuthService extends Getter {
   private secret: string;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    super();
     this.secret = process.env.SECRET as string;
-  }
-
-  private async getUser(email: string) {
-    const getUser = await this.prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (!getUser) return {
-      code: StatusCode.NOT_FOUND,
-      error: 'Invalid email or password',
-    };
-    return getUser as User;
   }
 
   async login(email: string, hash: string) {
