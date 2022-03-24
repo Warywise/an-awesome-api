@@ -1,9 +1,9 @@
 import { PrismaClient, User } from '@prisma/client';
 
-import UserVerifier from '../userVerifier';
-import { userAdress, userCard, UserType } from '../../interfaces/users';
+import Verifier from '../../superClass/verifier';
+import { UserAdress, UserCard, UserType } from '../../interfaces/users';
 
-class UserInfosService extends UserVerifier {
+class UserInfosService extends Verifier {
   private prisma: PrismaClient;
 
   constructor() {
@@ -25,7 +25,7 @@ class UserInfosService extends UserVerifier {
     return userAuth ?? user as User;
   }
 
-  async createUserAdress(email: string, adress: userAdress, token: string) {
+  async createUserAdress(email: string, adress: UserAdress, token: string) {
     const userAuth = await this.validateUser(email, token);
 
     if ('error' in userAuth) return userAuth;
@@ -37,7 +37,7 @@ class UserInfosService extends UserVerifier {
     });
   }
 
-  async createUserCard(email: string, card: userCard, token: string) {
+  async createUserCard(email: string, card: UserCard, token: string) {
     const userAuth = await this.validateUser(email, token);
 
     if ('error' in userAuth) return userAuth;

@@ -2,7 +2,7 @@ import argon from 'argon2';
 import { UserType } from '../interfaces/users';
 import StatusCode from '../utils/enumStatusCodes';
 
-export default abstract class UserVerifier {
+export default abstract class Verifier {
   protected async userVerifier(user: UserType | null, token: string | null = null) {
     if (!user) return {
       code: StatusCode.NOT_FOUND,

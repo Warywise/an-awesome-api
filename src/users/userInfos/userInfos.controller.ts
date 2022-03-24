@@ -3,7 +3,7 @@ import { Controller, Post } from '@decorators/express';
 
 import UserInfosService from './userInfos.service';
 import StatusCode from '../../utils/enumStatusCodes';
-import { VerifyToken } from '../../middlewares/token';
+import { VerifyToken } from '../../middlewares/tokenMiddlewares';
 import { VerifyAdressData, VerifyCardData } from '../../middlewares/userMiddlewares';
 
 @Controller('/users')

@@ -6,6 +6,7 @@ import ProductRouter from './products/product.controller';
 import UserRouter from './users/user.controler';
 import UserInfosRouter from './users/userInfos/userInfos.controller';
 import AuthRouter from './auth/auth.controller';
+import SaleRouter from './sales/sale.controller';
 
 const app = Express();
 
@@ -14,7 +15,8 @@ attachControllers(app, [
   ProductRouter,
   UserRouter,
   UserInfosRouter,
-  AuthRouter
+  AuthRouter,
+  SaleRouter
 ]);
 
 export default app;

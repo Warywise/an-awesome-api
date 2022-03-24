@@ -4,7 +4,7 @@ import { Controller, Delete, Get, Post, Put } from '@decorators/express';
 import UserService from './user.service';
 import { VerifyEmail, VerifyHash, VerifyUserData } from '../middlewares/userMiddlewares';
 import StatusCode from '../utils/enumStatusCodes';
-import { VerifyToken } from '../middlewares/token';
+import { VerifyToken } from '../middlewares/tokenMiddlewares';
 
 @Controller('/users')
 export default class UserController {

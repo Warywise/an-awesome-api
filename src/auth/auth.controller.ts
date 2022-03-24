@@ -3,7 +3,7 @@ import { Controller, Post } from '@decorators/express';
 // import jwt from 'jsonwebtoken';
 
 import { VerifyEmail, VerifyHash } from '../middlewares/userMiddlewares';
-import { VerifyToken } from '../middlewares/token';
+import { VerifyToken } from '../middlewares/tokenMiddlewares';
 import StatusCode from '../utils/enumStatusCodes';
 import AuthService from './auth.service';
 
