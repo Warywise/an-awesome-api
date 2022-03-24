@@ -35,6 +35,7 @@ class UserService extends UserVerifier {
     const userInfos = await this.prisma.user.findUnique({
       where: { email },
       select: {
+        cpf: true,
         token: true,
         userAdress: true,
         userCard: true,
@@ -60,6 +61,7 @@ class UserService extends UserVerifier {
     const userAuth = await this.userVerifier(userInfos as UserType, token);
 
     const processUserInfos = {
+      cpf: userInfos.cpf,
       userAdresses: userInfos.userAdress,
       userCards: userInfos.userCard,
       userPurchases: userInfos.purchases.map((item) => ({

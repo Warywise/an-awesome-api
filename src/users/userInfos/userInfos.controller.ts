@@ -11,33 +11,43 @@ export default class UserInfosController {
 
   @Post('/adress/:email', [VerifyToken, VerifyAdressData])
   async createAdress(req: Request, res: Response) {
-    const {
-      body: adress, headers: { authorization: token }, params: { email }
-    } = req;
+    try {
+      const {
+        body: adress, headers: { authorization: token }, params: { email }
+      } = req;
 
-    const userAdress = await UserInfosService.createUserAdress(email, adress, token as string);
+      const userAdress = await UserInfosService.createUserAdress(email, adress, token as string);
 
-    if ('error' in userAdress) {
-      const { code, error } = userAdress;
-      return res.status(code).json({ error });
+      if ('error' in userAdress) {
+        const { code, error } = userAdress;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.CREATED).json(userAdress);
+
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
     }
-
-    return res.status(StatusCode.CREATED).json(userAdress);
   }
 
   @Post('/card/:email', [VerifyToken, VerifyCardData])
   async createCard(req: Request, res: Response) {
-    const {
-      body: card, headers: { authorization: token }, params: { email }
-    } = req;
+    try {
+      const {
+        body: card, headers: { authorization: token }, params: { email }
+      } = req;
 
-    const userCard = await UserInfosService.createUserCard(email, card, token as string);
+      const userCard = await UserInfosService.createUserCard(email, card, token as string);
 
-    if ('error' in userCard) {
-      const { code, error } = userCard;
-      return res.status(code).json({ error });
+      if ('error' in userCard) {
+        const { code, error } = userCard;
+        return res.status(code).json({ error });
+      }
+      return res.status(StatusCode.CREATED).json(userCard);
+
+    } catch (error) {
+      if (error instanceof Error) throw Error(error.message);
+      if (typeof error === 'string') throw Error(error);
     }
-
-    return res.status(StatusCode.CREATED).json(userCard);
   }
 }
