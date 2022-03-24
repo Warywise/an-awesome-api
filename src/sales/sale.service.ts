@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import Getter from '../superClass/getter';
 import { UserType } from '../interfaces/users';
 import { SaleData } from '../interfaces/sales';
+import StatusCode from '../utils/enumStatusCodes';
 
 class SaleService extends Getter {
 
@@ -10,7 +11,7 @@ class SaleService extends Getter {
     super();
   }
 
-  async validateUser(email: string, token: string) {
+  private async validateUser(email: string, token: string) {
     const user = await this.getUser(email);
     if ('error' in user) return user;
 
@@ -40,6 +41,11 @@ class SaleService extends Getter {
       await this.prisma.sale.delete({
         where: { id: saleId }
       });
+
+      return {
+        code: StatusCode.INVALID_CONTENT,
+        error: 'Internal server error or invalid request content',
+      };
     }
   }
 }
