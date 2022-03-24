@@ -3,8 +3,7 @@ import { Controller, Post } from '@decorators/express';
 
 import Handler from '../superClass/handler';
 import AuthService from './auth.service';
-import { VerifyEmail, VerifyHash } from '../middlewares/userMiddlewares';
-import { VerifyToken } from '../middlewares/tokenMiddlewares';
+import { VerifyEmail, VerifyHash, VerifyToken } from '../middlewares';
 import StatusCode from '../utils/enumStatusCodes';
 
 @Controller('/auth')

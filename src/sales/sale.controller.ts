@@ -3,9 +3,7 @@ import { Controller, Post } from '@decorators/express';
 
 import Handler from '../superClass/handler';
 import SaleService from './sale.service';
-import { VerifyToken } from '../middlewares/tokenMiddlewares';
-import { VerifyEmail } from '../middlewares/userMiddlewares';
-import { VerifySale } from '../middlewares/saleMiddlewares';
+import { VerifyToken, VerifyEmail, VerifySale } from '../middlewares';
 import StatusCode from '../utils/enumStatusCodes';
 
 @Controller('/sales')
