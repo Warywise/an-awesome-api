@@ -1,4 +1,3 @@
-import { PrismaClient, User } from '@prisma/client';
 import argon from 'argon2';
 import jwt from 'jsonwebtoken';
 import { v4 as uuid } from 'uuid';
