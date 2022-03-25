@@ -115,7 +115,7 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   ```json
   // POST /auth/logout
   {
-    "headers": { "authorization": "erluIO.09uNUI.09837e38n.xmeoifrsevcghghT.9h"
+    "headers": { "authorization": "erluIO.09uNUI.09837e38n.xmeoifrsevcghghT.9h" },
     "body" : {
       "email": "somais@gmail.com",
     }
@@ -127,7 +127,7 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   ```json
   // POST /auth/refresh
   {
-    "headers": { "authorization": "erluIO.09uNUI.09837e38n.xmeoifrsevcghghT.9h"
+    "headers": { "authorization": "erluIO.09uNUI.09837e38n.xmeoifrsevcghghT.9h" },
     "body" : {
       "email": "somais@gmail.com",
     }
@@ -142,7 +142,7 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   // POST /users/adress/{:email}
   // Todos os campos obrigatórios
   {
-    "headers": { "authorization": "njfeiçubT.cme0iuf7857.KTRxwefH412.fft67.rR"
+    "headers": { "authorization": "njfeiçubT.cme0iuf7857.KTRxwefH412.fft67.rR" },
     "body" : {
       "adress": "Rua Pedro - 45",
       "city": "Tangamandápio",
@@ -158,7 +158,7 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   // POST /users/card/{:email}
   // Todos os campos obrigatórios
   {
-    "headers": { "authorization": "njfeiçubT.cme0iuf7857.KTRxwefH412.fft67.rR"
+    "headers": { "authorization": "njfeiçubT.cme0iuf7857.KTRxwefH412.fft67.rR" },
     "body" : {
       "cardNumber": "1234567812345678", // 16 digitos
       "cardName": "John Doe",
@@ -175,7 +175,7 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   ```json
   // POST /sales/{:email}
   {
-    "headers": { "authorization": "sWEet.cHIld.oMine-78.ffGm.12v8"
+    "headers": { "authorization": "sWEet.cHIld.oMine-78.ffGm.12v8" },
     "body" : {
       "productsSold": [1, 45, 57, 31], // ID dos produtos
       "payMethodId": 2, // 1 - Boleto   2 - Debito   3 - Credito
