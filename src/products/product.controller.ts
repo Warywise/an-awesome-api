@@ -1,75 +1,63 @@
-import { Request, Response, ErrorRequestHandler } from 'express';
+import { Request, Response } from 'express';
 import { Controller, Get } from '@decorators/express';
 
+import Handler from '../superClass/handler';
 import ProductService from './product.service';
 import StatusCode from '../utils/enumStatusCodes';
 
 @Controller('/products')
-export default class ProductController {
+export default class ProductController extends Handler {
+  constructor() {
+    super();
+  }
 
   @Get('')
   async getAll(_req: Request, res: Response) {
-    try {
-      const allProducts = await ProductService.getAllProducts();
-      return res.status(StatusCode.OK).json(allProducts);
+    const allProducts = await this
+      .TryCatch(() => ProductService.getAllProducts());
 
-    } catch (error) {
-      if (error instanceof Error) throw Error(error.message);
-      if (typeof error === 'string') throw Error(error);
-    }
+    return res.status(StatusCode.OK).json(allProducts);
   }
 
   @Get('/category/:name')
   async getByCategory(req: Request, res: Response) {
-    try {
-      const { name } = req.params;
-      const products = await ProductService.getProductsByCategory(name);
+    const { name } = req.params;
+    const products = await this
+      .TryCatch(() => ProductService.getProductsByCategory(name));
 
-      if ('error' in products) {
-        const { code, error } = products;
-        return res.status(code).json({ error });
-      }
-      return res.status(StatusCode.OK).json(products);
-
-    } catch (error) {
-      if (error instanceof Error) throw Error(error.message);
-      if (typeof error === 'string') throw Error(error);
+    if (products && 'error' in products) {
+      const { code, error } = products;
+      return res.status(code).json({ error });
     }
+
+    return res.status(StatusCode.OK).json(products);
   }
 
   @Get('/query')
   async getByQuery(req: Request, res: Response) {
-    try {
-      const { name } = req.query;
-      const products = await ProductService.getProductsByQuery(`${name}`);
+    const { name } = req.query;
+    const products = await this
+      .TryCatch(() => ProductService.getProductsByQuery(`${name}`));
 
-      if ('error' in products) {
-        const { code, error } = products;
-        return res.status(code).json({ error });
-      }
-      return res.status(StatusCode.OK).json(products);
-
-    } catch (error) {
-      if (error instanceof Error) throw Error(error.message);
-      if (typeof error === 'string') throw Error(error);
+    if (products && 'error' in products) {
+      const { code, error } = products;
+      return res.status(code).json({ error });
     }
+
+    return res.status(StatusCode.OK).json(products);
   }
 
   @Get('/:id')
   async getById(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const product = await ProductService.getProductById(Number(id));
+    const { id } = req.params;
+    const product = await this
+      .TryCatch(() => ProductService.getProductById(Number(id)));
 
-      if ('error' in product) {
-        const { code, error } = product;
-        return res.status(code).json({ error });
-      }
-      return res.status(StatusCode.OK).json(product);
-
-    } catch (error) {
-      if (error instanceof Error) throw Error(error.message);
-      if (typeof error === 'string') throw Error(error);
+    if (product && 'error' in product) {
+      const { code, error } = product;
+      return res.status(code).json({ error });
     }
+
+    return res.status(StatusCode.OK).json(product);
   }
 }

@@ -2,14 +2,22 @@ import { PrismaClient } from '@prisma/client';
 import StatusCode from '../utils/enumStatusCodes';
 
 class ProductService {
-  private prisma: PrismaClient;
+  private readonly prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
   }
 
   async getAllProducts() {
-    return await this.prisma.product.findMany();
+    return await this.prisma.product.findMany({
+      include: {
+        category: {
+          select: {
+            name: true,
+          }
+        }
+      }
+    });
   }
 
   async getProductById(id: number) {
@@ -39,7 +47,8 @@ class ProductService {
         name: {
           contains: categoryName,
           mode: 'insensitive',
-      } },
+        }
+      },
       select: {
         products: {
           include: {
