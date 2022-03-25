@@ -32,7 +32,7 @@ docker-compose down && docker image rm an-awesome-api postgres:13-alpine node:14
 ```
 
 ### Considerações finais:
-Escolhi uma organização de pastas e arquivos baseada nas rotas disponíveis na API, utilizando um padrão MSC, onde cada rota principal possui seu próprio _**service**_ e _**controller**_. Todas as imagens utilizadas no Docker Compose são utilizadas em sua versão _**alpine**_.
+Escolhi uma organização de pastas e arquivos baseada nas rotas disponíveis na API, onde cada rota principal possui seu próprio _**service**_ e _**controller**_, utilizando um padrão MSC. Todas as imagens utilizadas no Docker Compose estão em sua versão _**alpine**_.
 
 Ainda faltariam diversos pontos para se dizer que a API está completa, como implementar testes de integração, adicionar mais tabelas para haver mais opções de lidar com compras, vendas e informações de usuários, ou verificar mais a fundo brechas de segurança, e até implementar opções para um usuário Admin acessar informações sensíveis, mas todo o foco foi centrado em oferecer o máximo do necessário para tornar o Front-End funcional e utilizável.
 
