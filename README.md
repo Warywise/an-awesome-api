@@ -5,7 +5,7 @@ API Rest desenvolvida com o intuito de fornecer dados para um front-end específ
 Todo o servidor da API pode ser conteinerizado através do **Dockerfile** e **Docker Compose** presentes na raíz do projeto, e é integrado a um _banco de dados relacional_, no caso o _**PostgreSQL**_, que é gerado a partir de uma imagem em **Docker** (postgres:13-alpine).
 
 No contexto deste projeto, existem duas APIs de fornecedores distintas as quais os dados não conversam entre si. Logo, esta API foi criada com o intuito de receber dinamicamente dados de terceiros e normaliza-los a fim de dispor ao Front-End, assim como lidar com tudo relativo a usuários, compras, login e etc.
-Com poucos passos é possível adicionar um novo fornecedor editando o arquivo `./prisma/seeds/generators/generator.ts`.
+Com poucos passos é possível adicionar um novo fornecedor editando o arquivo presente no seguinte caminho `./prisma/seeds/generators/generator.ts`.
 
 > _Obs: Por motivos didáticos, as APIs foram Mockadas no diretório `./prisma/seeds/generators/` e simula o **fetch** através de **Promises**_.
 
@@ -21,12 +21,24 @@ Com poucos passos é possível adicionar um novo fornecedor editando o arquivo `
   > Clone o projeto e certifique-se que as portas **5432** e **3001** estejam livres.
   - Dentro do diretório do projeto, rode o comando:
     -  `docker-compose up` ou com a flag `docker-compose up -d` (destaca o container em segundo plano).
+  ```
+  💡 Ao final deste ReadMe, constam as possíveis rotas da API
+  ```
 
-### Ao finalizar:
-> Ainda no diretório, derrube o conteiner e apague as imagens e networks geradas com o seguinte comando:
+### Ao finalizar, para encerrar o server:
+> Ainda no diretório, você pode derrubar o conteiner e apagar as imagens e networks geradas com o seguinte comando:
 ```
 docker-compose down && docker image rm an-awesome-api postgres:13-alpine node:14-alpine
 ```
+
+### Considerações finais:
+Escolhi uma organização de pastas e arquivos baseada nas rotas disponíveis na API, utilizando um padrão MSC, onde cada rota principal possui seu próprio _**service**_ e _**controller**_. Todas as imagens utilizadas no Docker Compose são utilizadas em sua versão _**alpine**_.
+
+Ainda faltariam diversos pontos para se dizer que a API está completa, como implementar testes de integração, adicionar mais tabelas para haver mais opções de lidar com compras, vendas e informações de usuários, ou verificar mais a fundo brechas de segurança, e até implementar opções para um usuário Admin acessar informações sensíveis, mas todo o foco foi centrado em oferecer o máximo do necessário para tornar o Front-End funcional e utilizável.
+
+Aproveitei o projeto para treinar habilidades de POO e, tentei, aplicar os princípios SOLID. Aprofundei consideravelmente meus conhecimentos com o Prisma e Docker, e pude consolidar aprendizados sobre Decorators em TypeScript.
+
+---
 
 ### Rotas disponíveis:
 Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) caso queira conferir as rotas.
@@ -177,10 +189,10 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   {
     "headers": { "authorization": "sWEet.cHIld.oMine-78.ffGm.12v8" },
     "body" : {
-      "productsSold": [1, 45, 57, 31], // ID dos produtos
-      "payMethodId": 2, // 1 - Boleto   2 - Debito   3 - Credito
+      "productsSold": [1, 45, 57, 31], // ID dos produtos comprados
+      "payMethodId": 2, // Método de pagamento: 1 - Boleto   2 - Debito   3 - Credito
     }
   }
   ```
 
-> _**ReadMe em construção...**_
+---
