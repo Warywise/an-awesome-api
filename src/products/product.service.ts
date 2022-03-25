@@ -9,7 +9,15 @@ class ProductService {
   }
 
   async getAllProducts() {
-    return await this.prisma.product.findMany();
+    return await this.prisma.product.findMany({
+      include: {
+        category: {
+          select: {
+            name: true,
+          }
+        }
+      }
+    });
   }
 
   async getProductById(id: number) {
@@ -39,7 +47,8 @@ class ProductService {
         name: {
           contains: categoryName,
           mode: 'insensitive',
-      } },
+        }
+      },
       select: {
         products: {
           include: {
