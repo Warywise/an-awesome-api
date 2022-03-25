@@ -16,3 +16,5 @@ docker-compose down && docker image rm an-awesome-api postgres:13-alpine node:14
   - `GET /products/query?name={value}` Busca todos os produtos que contenham o termo de busca no nome;
   - `GET /products/category/{categoryName}` Busca todos os produtos de uma categoria específica;
   - `GET /products/{:id}` Busca um produto específico por seu identificar.
+
+| _**ReadMe em construção...**_
