@@ -9,9 +9,9 @@ import StatusCode from '../utils/enumStatusCodes';
 export default class CategoryController extends Handler {
 
   @Get('')
-  async getAll(_req: Request, res: Response) {
+  async getAllCategories(_req: Request, res: Response) {
     const allCategories = await this
-      .TryCatch(CategoryService.getAllCategories);
+      .TryCatch(() => CategoryService.getAllCategories());
 
     return res.status(StatusCode.OK).json(allCategories);
   }

@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import StatusCode from '../utils/enumStatusCodes';
 
 class ProductService {
-  private prisma: PrismaClient;
+  private readonly prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();

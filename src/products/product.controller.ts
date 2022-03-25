@@ -7,10 +7,14 @@ import StatusCode from '../utils/enumStatusCodes';
 
 @Controller('/products')
 export default class ProductController extends Handler {
+  constructor() {
+    super();
+  }
 
   @Get('')
   async getAll(_req: Request, res: Response) {
-    const allProducts = await this.TryCatch(ProductService.getAllProducts);
+    const allProducts = await this
+      .TryCatch(() => ProductService.getAllProducts());
 
     return res.status(StatusCode.OK).json(allProducts);
   }
