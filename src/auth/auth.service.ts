@@ -27,20 +27,24 @@ class AuthService extends Getter {
     };
     const { name, lastName, active } = user;
 
-    const tokenObj = { tkId: uuid(), email };
-    const token = jwt.sign(tokenObj, this.secret);
-    const hashToken = await argon.hash(token);
-
-    await this.prisma.user.update({
-      where: { email },
-      data: { token: hashToken },
-    });
-
+    if (active) {
+      const tokenObj = { tkId: uuid(), email };
+      const token = jwt.sign(tokenObj, this.secret);
+      const hashToken = await argon.hash(token);
+  
+      await this.prisma.user.update({
+        where: { email },
+        data: { token: hashToken },
+      });
+  
+      return {
+        email,
+        name: name ? `${name} ${lastName}` : null,
+        token,
+      };
+    }
     return {
-      email,
-      name: name ? `${name} ${lastName}` : null,
-      token,
-      active,
+      code: StatusCode.UNAUTHORIZED_USER, error: 'Inactive user'
     };
   }
 
