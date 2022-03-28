@@ -52,13 +52,15 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   #### 👥 Usuários
   - `GET /users` Busca os dados de um usuário logado
   - `GET /users/infos` Busca informações de compras. endereços e cartões cadastrados de um usuário logado
-  > Ambas rotas acima necessitam receber o **email** no _**Body**_ da requisição e o **token** na chave _**authorization**_ do _**Headers**_:
+  > Ambas rotas acima necessitam receber o **email** e o **token** na chave _**authorization**_ no _**Headers**_ da requisição:
   ```json
   // GET /users
   // GET /users/infos
   {
-    "headers": { "authorization": "00d8d7f.87f6f7ffmnwnde09-ce8fc7fe9kO.Ol" },
-    "body": { "email": "legendofzelda@hotmail.com" }
+    "headers": { 
+    "authorization": "00d8d7f.87f6f7ffmnwnde09-ce8fc7fe9kO.Ol",
+    "email": "legendofzelda@hotmail.com"
+    },
   }
   ```
 
