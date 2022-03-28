@@ -20,15 +20,23 @@ class UserService extends Verifier {
         name: true,
         lastName: true,
         email: true,
-        cpf: true,
         token: true,
+        cpf: true,
         active: true,
       }
     });
 
     const userAuth = await this.userVerifier(user as UserType, token);
+    if (userAuth) return userAuth;
 
-    return userAuth ?? user as User;
+    const { id, email: userEmai, name, lastName, cpf, active } = user as User;
+    return {
+      id,
+      email: userEmai,
+      name: `${name} ${lastName}`,
+      cpf,
+      active
+    };
   }
 
   async getUserInfosByEmail(email: string, token: string) {
