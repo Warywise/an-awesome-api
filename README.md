@@ -46,7 +46,7 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   - `GET /categories` Busca todas as categorias de produtos;
   - `GET /products` Busca todos os produtos;
   - `GET /products/query?name={value}` Busca todos os produtos que contenham o termo de busca no nome;
-  - `GET /products/category/{categoryName}` Busca todos os produtos de uma categoria específica;
+  - `GET /products/category/{:categoryName}` Busca todos os produtos de uma categoria específica;
   - `GET /products/{:id}` Busca um produto específico por seu identificar.
   
   #### 👥 Usuários
@@ -58,8 +58,8 @@ Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) cas
   // GET /users/infos
   {
     "headers": { 
-    "authorization": "00d8d7f.87f6f7ffmnwnde09-ce8fc7fe9kO.Ol",
-    "email": "legendofzelda@hotmail.com"
+      "authorization": "00d8d7f.87f6f7ffmnwnde09-ce8fc7fe9kO.Ol",
+      "email": "legendofzelda@hotmail.com"
     },
   }
   ```
