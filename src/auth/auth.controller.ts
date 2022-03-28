@@ -3,7 +3,7 @@ import { Controller, Post } from '@decorators/express';
 
 import Handler from '../superClass/handler';
 import AuthService from './auth.service';
-import { VerifyEmail, VerifyHash, VerifyToken } from '../middlewares';
+import { VerifyBodyEmail, VerifyHash, VerifyToken } from '../middlewares';
 import StatusCode from '../utils/enumStatusCodes';
 
 @Controller('/auth')
@@ -23,7 +23,7 @@ export default class AuthController extends Handler {
     return res.status(StatusCode.OK).json(userLogin);
   }
 
-  @Post('/logout', [VerifyToken, VerifyEmail])
+  @Post('/logout', [VerifyToken, VerifyBodyEmail])
   async logout(req: Request, res: Response) {
     const { body: { email }, headers: { authorization: token } } = req;
     const userLogout = await this
@@ -37,7 +37,7 @@ export default class AuthController extends Handler {
     return res.status(StatusCode.NO_CONTENT).end();
   }
 
-  @Post('/refresh', [VerifyToken, VerifyEmail])
+  @Post('/refresh', [VerifyToken, VerifyBodyEmail])
   async refreshToken(req: Request, res: Response) {
     const { body: { email }, headers: { authorization: token } } = req;
     const userRefreshToken = await this

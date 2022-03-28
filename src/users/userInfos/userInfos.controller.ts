@@ -3,13 +3,13 @@ import { Controller, Post } from '@decorators/express';
 
 import Handler from '../../superClass/handler';
 import UserInfosService from './userInfos.service';
-import { VerifyAdressData, VerifyCardData, VerifyToken } from '../../middlewares';
+import { VerifyAdressData, VerifyCardData, VerifyEmail, VerifyToken } from '../../middlewares';
 import StatusCode from '../../utils/enumStatusCodes';
 
 @Controller('/users')
 export default class UserInfosController extends Handler {
 
-  @Post('/adress/:email', [VerifyToken, VerifyAdressData])
+  @Post('/adress/:email', [VerifyToken, VerifyEmail,VerifyAdressData])
   async createAdress(req: Request, res: Response) {
     const {
       body: adress, headers: { authorization: token }, params: { email }
@@ -26,7 +26,7 @@ export default class UserInfosController extends Handler {
     return res.status(StatusCode.CREATED).json(userAdress);
   }
 
-  @Post('/card/:email', [VerifyToken, VerifyCardData])
+  @Post('/card/:email', [VerifyToken, VerifyEmail, VerifyCardData])
   async createCard(req: Request, res: Response) {
     const {
       body: card, headers: { authorization: token }, params: { email }

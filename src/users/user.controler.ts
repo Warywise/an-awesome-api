@@ -11,9 +11,9 @@ export default class UserController extends Handler {
 
   @Get('', [VerifyToken, VerifyEmail])
   async getUser(req: Request, res: Response) {
-    const { body: { email }, headers: { authorization } } = req;
+    const { headers: { authorization, email } } = req;
     const user = await this
-      .TryCatch(() => UserService.getUserByEmail(email, authorization as string));
+      .TryCatch(() => UserService.getUserByEmail(email as string, authorization as string));
 
     if (user && 'error' in user) {
       const { code, error } = user;
@@ -25,9 +25,9 @@ export default class UserController extends Handler {
 
   @Get('/infos', [VerifyToken, VerifyEmail])
   async getUserInfos(req: Request, res: Response) {
-    const { body: { email }, headers: { authorization } } = req;
+    const { headers: { authorization, email } } = req;
     const userInfos = await this
-      .TryCatch(() => UserService.getUserInfosByEmail(email, authorization as string));
+      .TryCatch(() => UserService.getUserInfosByEmail(email as string, authorization as string));
 
     if (userInfos && 'error' in userInfos) {
       const { code, error } = userInfos;
@@ -37,7 +37,7 @@ export default class UserController extends Handler {
     return res.status(StatusCode.OK).json(userInfos);
   }
 
-  @Get('/:email')
+  @Get('/:email', [VerifyEmail])
   async getUserCondition(req: Request, res: Response) {
     const { email } = req.params;
     const userInfos = await this
