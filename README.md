@@ -39,6 +39,11 @@ Ainda faltariam diversos pontos para se dizer que a API está completa, como imp
 Aproveitei o projeto para treinar habilidades de POO e, tentei, aplicar os princípios SOLID. Aprofundei consideravelmente meus conhecimentos com o Prisma e Docker, e pude consolidar aprendizados sobre Decorators em TypeScript.
 
 ---
+#### Clique [AQUI](https://github.com/Warywise/imagine-an-awesome-store) para retornar ao repositório inicial.
+
+#### Clique [AQUI](https://github.com/Warywise/imagine-store) para navegar até o repositório de Frontend
+
+---
 
 ### Rotas disponíveis:
 Acesse `localhost:3001` através de um _Client_ (Thunder Client, Postman...) caso queira conferir as rotas.
