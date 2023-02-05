@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
-import { Controller, Delete, Get, Post, Put } from '@decorators/express';
+import { Request as RequestType, Response as ResponseType } from 'express';
+import { Controller, Response, Request, Delete, Get, Post, Put } from '@decorators/express';
 
-import Handler from '../superClass/handler';
+import Handler from '../../superClass/handler';
 import UserService from './user.service';
-import { VerifyEmail, VerifyHash, VerifyUserData, VerifyToken } from '../middlewares';
-import StatusCode from '../utils/enumStatusCodes';
+import { VerifyEmail, VerifyHash, VerifyUserData, VerifyToken } from '../../middlewares';
+import StatusCode from '../../utils/enumStatusCodes';
 
 @Controller('/users')
 export default class UserController extends Handler {
 
   @Get('', [VerifyToken, VerifyEmail])
-  async getUser(req: Request, res: Response) {
+  async getUser(@Request() req: RequestType, @Response() res: ResponseType) {
     const { headers: { authorization, email } } = req;
     const user = await this
       .TryCatch(() => UserService.getUserByEmail(email as string, authorization as string));
@@ -24,7 +24,7 @@ export default class UserController extends Handler {
   }
 
   @Get('/infos', [VerifyToken, VerifyEmail])
-  async getUserInfos(req: Request, res: Response) {
+  async getUserInfos(@Request() req: RequestType, @Response() res: ResponseType) {
     const { headers: { authorization, email } } = req;
     const userInfos = await this
       .TryCatch(() => UserService.getUserInfosByEmail(email as string, authorization as string));
@@ -38,7 +38,7 @@ export default class UserController extends Handler {
   }
 
   @Get('/:email', [VerifyEmail])
-  async getUserCondition(req: Request, res: Response) {
+  async getUserCondition(@Request() req: RequestType, @Response() res: ResponseType) {
     const { email } = req.params;
     const userInfos = await this
       .TryCatch(() => UserService.verifyUserCondition(email));
@@ -52,7 +52,7 @@ export default class UserController extends Handler {
   }
 
   @Post('', [VerifyUserData])
-  async upsertUser(req: Request, res: Response) {
+  async upsertUser(@Request() req: RequestType, @Response() res: ResponseType) {
     const userData = req.body;
     const userResult = await this
       .TryCatch(() => UserService.createOrUpdateUser(userData));
@@ -61,7 +61,7 @@ export default class UserController extends Handler {
   }
 
   @Put('', [VerifyToken, VerifyUserData])
-  async updateUser(req: Request, res: Response) {
+  async updateUser(@Request() req: RequestType, @Response() res: ResponseType) {
     const { body: userData, headers: { authorization: token } } = req;
     const userResult = await this
       .TryCatch(() => UserService.updateUser(userData, token as string));
@@ -75,7 +75,7 @@ export default class UserController extends Handler {
   }
 
   @Delete('', [VerifyToken, VerifyHash])
-  async disableUser(req: Request, res: Response) {
+  async disableUser(@Request() req: RequestType, @Response() res: ResponseType) {
     const {
       body: { email, hash }, headers: { authorization: token }
     } = req;

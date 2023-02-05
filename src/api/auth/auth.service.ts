@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuid } from 'uuid';
 import 'dotenv/config';
 
-import Getter from '../superClass/getter';
-import StatusCode from '../utils/enumStatusCodes';
+import Getter from '../../superClass/getter';
+import StatusCode from '../../utils/enumStatusCodes';
 
 class AuthService extends Getter {
   private secret: string;

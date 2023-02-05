@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
-import { Controller, Post } from '@decorators/express';
+import { Request as RequestType, Response as ResponseType } from 'express';
+import { Controller, Post, Request, Response } from '@decorators/express';
 
-import Handler from '../../superClass/handler';
+import Handler from '../../../superClass/handler';
 import UserInfosService from './userInfos.service';
-import { VerifyAdressData, VerifyCardData, VerifyEmail, VerifyToken } from '../../middlewares';
-import StatusCode from '../../utils/enumStatusCodes';
+import { VerifyAdressData, VerifyCardData, VerifyEmail, VerifyToken } from '../../../middlewares';
+import StatusCode from '../../../utils/enumStatusCodes';
 
 @Controller('/users')
 export default class UserInfosController extends Handler {
 
   @Post('/adress/:email', [VerifyToken, VerifyEmail,VerifyAdressData])
-  async createAdress(req: Request, res: Response) {
+  async createAdress(@Request() req: RequestType, @Response() res: ResponseType) {
     const {
       body: adress, headers: { authorization: token }, params: { email }
     } = req;
@@ -27,7 +27,7 @@ export default class UserInfosController extends Handler {
   }
 
   @Post('/card/:email', [VerifyToken, VerifyEmail, VerifyCardData])
-  async createCard(req: Request, res: Response) {
+  async createCard(@Request() req: RequestType, @Response() res: ResponseType) {
     const {
       body: card, headers: { authorization: token }, params: { email }
     } = req;

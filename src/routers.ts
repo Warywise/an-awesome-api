@@ -1,22 +1,22 @@
 import Express from 'express';
 import { attachControllers } from '@decorators/express';
 
-import CategoryRouter from './categories/category.controller';
-import ProductRouter from './products/product.controller';
-import UserRouter from './users/user.controler';
-import UserInfosRouter from './users/userInfos/userInfos.controller';
-import AuthRouter from './auth/auth.controller';
-import SaleRouter from './sales/sale.controller';
+import CategoryRouter from './api/categories/category.controller';
+import ProductRouter from './api//products/product.controller';
+import UserRouter from './api//users/user.controler';
+import UserInfosRouter from './api//users/userInfos/userInfos.controller';
+import AuthRouter from './api/auth/auth.controller';
+import SaleRouter from './api//sales/sale.controller';
 
-const app = Express();
+const router = Express.Router();
 
-attachControllers(app, [
+attachControllers(router, [
   CategoryRouter,
   ProductRouter,
   UserRouter,
   UserInfosRouter,
   AuthRouter,
-  SaleRouter
+  SaleRouter,
 ]);
 
-export default app;
+export default router;

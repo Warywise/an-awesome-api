@@ -1,11 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-import StatusCode from '../utils/enumStatusCodes';
+import { PrismaClient as PrismaClientType } from '@prisma/client';
+import PrismaClient from '../../../prisma';
+import StatusCode from '../../utils/enumStatusCodes';
 
 class ProductService {
-  private readonly prisma: PrismaClient;
+  private readonly prisma: PrismaClientType;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = PrismaClient;
   }
 
   async getAllProducts() {
@@ -20,14 +21,14 @@ class ProductService {
     });
   }
 
-  async getProductById(id: number) {
-    if (isNaN(id)) return {
-      code: StatusCode.BAD_REQUEST,
-      error: 'Field "Id" must be a number'
-    };
+  async getProductById(idi: number) {
+    // if (isNaN(idi)) return {
+    //   code: StatusCode.BAD_REQUEST,
+    //   error: 'Field "Id" must be a number'
+    // };
 
     const product = await this.prisma.product.findUnique({
-      where: { id }
+      where: { id: idi }
     });
 
     return product ?? {
