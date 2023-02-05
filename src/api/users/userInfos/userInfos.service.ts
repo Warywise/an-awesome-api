@@ -1,14 +1,15 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient as PrismaClientType, User } from '@prisma/client';
+import PrismaClient from '../../../../prisma';
 
-import Verifier from '../../superClass/verifier';
-import { UserAdress, UserCard, UserType } from '../../interfaces/users';
+import Verifier from '../../../superClass/verifier';
+import { UserAdress, UserCard, UserType } from '../../../interfaces/users';
 
 class UserInfosService extends Verifier {
-  private prisma: PrismaClient;
+  private prisma: PrismaClientType;
 
   constructor() {
     super();
-    this.prisma = new PrismaClient();
+    this.prisma = PrismaClient;
   }
 
   private async validateUser(email: string, token: string) {

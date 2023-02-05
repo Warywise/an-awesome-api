@@ -1,7 +1,7 @@
-import Getter from '../superClass/getter';
-import { UserType } from '../interfaces/users';
-import { SaleData } from '../interfaces/sales';
-import StatusCode from '../utils/enumStatusCodes';
+import Getter from '../../superClass/getter';
+import { UserType } from '../../interfaces/users';
+import { SaleData } from '../../interfaces/sales';
+import StatusCode from '../../utils/enumStatusCodes';
 
 class SaleService extends Getter {
   constructor() {

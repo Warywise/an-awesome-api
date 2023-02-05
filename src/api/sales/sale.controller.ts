@@ -1,16 +1,17 @@
-import { Request, Response } from 'express';
-import { Controller, Post } from '@decorators/express';
+import { Request as RequestType, Response as ResponseType } from 'express';
+import { Controller, Post, Request, Response } from '@decorators/express';
 
-import Handler from '../superClass/handler';
+
+import Handler from '../../superClass/handler';
 import SaleService from './sale.service';
-import { VerifyToken, VerifyEmail, VerifySale } from '../middlewares';
-import StatusCode from '../utils/enumStatusCodes';
+import { VerifyToken, VerifyEmail, VerifySale } from '../../middlewares';
+import StatusCode from '../../utils/enumStatusCodes';
 
 @Controller('/sales')
 export default class SaleController extends Handler {
 
   @Post('/:email', [VerifyToken, VerifyEmail, VerifySale])
-  async createSale(req: Request, res: Response) {
+  async createSale(@Request() req: RequestType, @Response() res: ResponseType) {
     const {
       body, headers: { authorization: token }, params: { email }
     } = req;

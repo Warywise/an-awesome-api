@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
-import { Controller, Post } from '@decorators/express';
+import { Request as RequestType, Response as ResponseType } from 'express';
+import { Controller, Post, Request, Response } from '@decorators/express';
 
-import Handler from '../superClass/handler';
+import Handler from '../../superClass/handler';
 import AuthService from './auth.service';
-import { VerifyBodyEmail, VerifyHash, VerifyToken } from '../middlewares';
-import StatusCode from '../utils/enumStatusCodes';
+import { VerifyBodyEmail, VerifyHash, VerifyToken } from '../../middlewares';
+import StatusCode from '../../utils/enumStatusCodes';
 
 @Controller('/auth')
 export default class AuthController extends Handler {
 
   @Post('/login', [VerifyHash])
-  async login(req: Request, res: Response) {
+  async login(@Request() req: RequestType, @Response() res: ResponseType) {
     const { email, hash } = req.body;
     const userLogin = await this
       .TryCatch(() => AuthService.login(email, hash));
@@ -24,7 +24,7 @@ export default class AuthController extends Handler {
   }
 
   @Post('/logout', [VerifyToken, VerifyBodyEmail])
-  async logout(req: Request, res: Response) {
+  async logout(@Request() req: RequestType, @Response() res: ResponseType) {
     const { body: { email }, headers: { authorization: token } } = req;
     const userLogout = await this
       .TryCatch(() => AuthService.logout(email, token as string));
@@ -38,7 +38,7 @@ export default class AuthController extends Handler {
   }
 
   @Post('/refresh', [VerifyToken, VerifyBodyEmail])
-  async refreshToken(req: Request, res: Response) {
+  async refreshToken(@Request() req: RequestType, @Response() res: ResponseType) {
     const { body: { email }, headers: { authorization: token } } = req;
     const userRefreshToken = await this
       .TryCatch(() => AuthService.refreshToken(email, token as string));

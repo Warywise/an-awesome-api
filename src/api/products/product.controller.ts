@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import { Controller, Get } from '@decorators/express';
+import { Request as RequestType, Response as ResponseType } from 'express';
+import { Controller, Get, Request, Response } from '@decorators/express';
 
-import Handler from '../superClass/handler';
+import Handler from '../../superClass/handler';
 import ProductService from './product.service';
-import StatusCode from '../utils/enumStatusCodes';
+import StatusCode from '../../utils/enumStatusCodes';
 
 @Controller('/products')
 export default class ProductController extends Handler {
@@ -12,7 +12,7 @@ export default class ProductController extends Handler {
   }
 
   @Get('')
-  async getAll(_req: Request, res: Response) {
+  async getAll(@Request() _req: RequestType, @Response() res: ResponseType) {
     const allProducts = await this
       .TryCatch(() => ProductService.getAllProducts());
 
@@ -20,7 +20,7 @@ export default class ProductController extends Handler {
   }
 
   @Get('/category/:name')
-  async getByCategory(req: Request, res: Response) {
+  async getByCategory(@Request() req: RequestType, @Response() res: ResponseType) {
     const { name } = req.params;
     const products = await this
       .TryCatch(() => ProductService.getProductsByCategory(name));
@@ -34,7 +34,7 @@ export default class ProductController extends Handler {
   }
 
   @Get('/query')
-  async getByQuery(req: Request, res: Response) {
+  async getByQuery(@Request() req: RequestType, @Response() res: ResponseType) {
     const { name } = req.query;
     const products = await this
       .TryCatch(() => ProductService.getProductsByQuery(`${name}`));
@@ -48,7 +48,7 @@ export default class ProductController extends Handler {
   }
 
   @Get('/:id')
-  async getById(req: Request, res: Response) {
+  async getById(@Request() req: RequestType, @Response() res: ResponseType) {
     const { id } = req.params;
     const product = await this
       .TryCatch(() => ProductService.getProductById(Number(id)));

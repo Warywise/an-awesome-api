@@ -1,13 +1,14 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient as PrismaClientType, User } from '@prisma/client';
+import PrismaClient from '../../prisma';
 import StatusCode from '../utils/enumStatusCodes';
 import Verifier from './verifier';
 
 export default abstract class Getter extends Verifier {
-  protected prisma: PrismaClient;
+  protected prisma: PrismaClientType;
 
   constructor() {
     super();
-    this.prisma = new PrismaClient();
+    this.prisma = PrismaClient;
   }
 
   protected async getUser(email: string) {

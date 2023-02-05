@@ -1,15 +1,17 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient as PrismaClientType, User } from '@prisma/client';
+import PrismaClient from '../../../prisma';
 import argon from 'argon2';
-import { NewUser, UserType } from '../interfaces/users';
-import StatusCode from '../utils/enumStatusCodes';
-import Verifier from '../superClass/verifier';
+
+import { NewUser, UserType } from '../../interfaces/users';
+import StatusCode from '../../utils/enumStatusCodes';
+import Verifier from '../../superClass/verifier';
 
 class UserService extends Verifier {
-  private prisma: PrismaClient;
+  private prisma: PrismaClientType;
 
   constructor() {
     super();
-    this.prisma = new PrismaClient();
+    this.prisma = PrismaClient;
   }
 
   async getUserByEmail(email: string, token: string) {
