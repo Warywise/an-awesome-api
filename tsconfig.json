@@ -2,16 +2,16 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
-    "target": "es6",
+    "module": "nodenext",
+    "target": "es2017",
     "rootDir": "./",
     "sourceMap": true,
     "outDir": "./dist",
-    "lib": ["esnext"],
+    "lib": ["esnext", "es2022"],
     "esModuleInterop": true,
     "strict": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma/**/*"],
   "exclude": [
     "node_modules",
     "dist",

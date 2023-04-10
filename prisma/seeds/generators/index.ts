@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { createClient } from 'pexels';
+import prisma from '../../index';
 
 import { BrProvider, EuroProvider, CreateProducts } from '../interfaces';
 import { BrazilianProvider } from './BrProviderMock';
@@ -94,4 +94,22 @@ export async function generateProductsData() {
       ? `!!! Product already exists: ${product} !!!`
       : (prisma.product.create({ data: product, }));
   });
+}
+
+const pexelsClient = createClient(process.env.PEXELS_API_KEY as string);
+
+export async function generateImagesPath(category: string) {
+  const query = `${category} object`;
+  const per_page = 50;
+
+  const images = await pexelsClient.photos.search({ query, per_page });
+
+  if ('error' in images) {
+    console.log('Pexels Error: ', images.error);
+    throw new Error(images.error);
+  }
+
+  console.log('\n-> Generating images path for: ', query, images.photos.length, '...\n');
+
+  return images.photos.map((image) => image.src.medium);
 }

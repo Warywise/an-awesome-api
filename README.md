@@ -5,7 +5,7 @@ API Rest desenvolvida com o intuito de fornecer dados para um front-end específ
 Todo o servidor da API pode ser conteinerizado através do **Dockerfile** e **Docker Compose** presentes na raíz do projeto, e é integrado a um _banco de dados relacional_, no caso o _**PostgreSQL**_, que é gerado a partir de uma imagem em **Docker** (postgres:13-alpine).
 
 No contexto deste projeto, existem duas APIs de fornecedores distintas as quais os dados não conversam entre si. Logo, esta API foi criada com o intuito de receber dinamicamente dados de terceiros e normaliza-los a fim de dispor ao Front-End, assim como lidar com tudo relativo a usuários, compras, login e etc.
-Com poucos passos é possível adicionar um novo fornecedor editando o arquivo presente no seguinte caminho `./prisma/seeds/generators/generator.ts`.
+Com poucos passos é possível adicionar um novo fornecedor editando o arquivo presente no seguinte caminho `./prisma/seeds/generators/index.ts`.
 
 > _Obs: Por motivos didáticos, as APIs foram Mockadas no diretório `./prisma/seeds/generators/` e simula o **fetch** através de **Promises**_.
 
