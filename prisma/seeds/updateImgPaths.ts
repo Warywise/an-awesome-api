@@ -10,7 +10,8 @@ const categories = [
   "Generic",
 ];
 
-const getRandomInd = (min?: number, max?: number) => Math.floor((Math.random() * (max || 50) + 1) + (min || 0));
+const getRandomInd = (min=0, max=49) => Math.floor(
+  Math.random() * (max - min + 1) + min);
 
 async function main() {
   console.log('\n-> Initializing img paths update...\n');
@@ -21,19 +22,15 @@ async function main() {
 
     const products = await prisma.product.findMany({
       where: { category: { name: category } },
-      select: { id: true, image: true, provider: true }
+      select: { id: true, provider: true }
     });
 
-    return products.map(({ id, image, provider }) => {
+    return products.map(({ id, provider }) => {
       const newImages: string[] = [];
 
-      if (image.length) {
-        image.forEach((_img) => {
-          newImages.push(imgPaths[getRandomInd()]);
-        });
-      } else if (provider === 'European Provider') {
+      if (provider === 'European Provider') {
         const length = getRandomInd(2, 4);
-        for (let i = 0; i <= length; i++) {
+        for (let i = 0; i < length; i++) {
           newImages.push(imgPaths[getRandomInd()]);
         }
       } else {
@@ -55,12 +52,3 @@ async function main() {
 }
 
 main().catch(console.log).finally(() => prisma.$disconnect());
-
-// const await Promise.all(newProductsImg);
-
-// generateImagesPath(category).then((data) => console.log(data));
-
-// prisma.product.updateMany({
-//   where: { category: { name: category } },
-//   data: { image: { set: [] } }
-// }).then((data) => console.log(data));
