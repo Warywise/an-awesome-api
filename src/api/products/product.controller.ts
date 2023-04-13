@@ -4,6 +4,8 @@ import { Controller, Get, Request, Response } from '@decorators/express';
 import Handler from '../../superClass/handler';
 import ProductService from './product.service';
 import StatusCode from '../../utils/enumStatusCodes';
+import { joiValidator } from '../../middlewares/joiMiddleware';
+import { joiProducts } from '../../middlewares/joiObjects/products';
 
 @Controller('/products')
 export default class ProductController extends Handler {
@@ -11,44 +13,24 @@ export default class ProductController extends Handler {
     super();
   }
 
-  @Get('')
-  async getAll(@Request() _req: RequestType, @Response() res: ResponseType) {
-    const allProducts = await this
-      .TryCatch(() => ProductService.getAllProducts());
+  @Get(
+    '/query',
+    [(req, res, next) => joiValidator(req as never, res, next, 'query', joiProducts)]
+  )
+  async getProducts(@Request() req: RequestType, @Response() res: ResponseType) {
+    const result = await this
+      .TryCatch(() => ProductService.getProducts(req));
 
-    return res.status(StatusCode.OK).json(allProducts);
-  }
-
-  @Get('/category/:name')
-  async getByCategory(@Request() req: RequestType, @Response() res: ResponseType) {
-    const { name } = req.params;
-    const products = await this
-      .TryCatch(() => ProductService.getProductsByCategory(name));
-
-    if (products && 'error' in products) {
-      const { code, error } = products;
+    if (result?.error) {
+      const { code, error } = result;
       return res.status(code).json({ error });
     }
 
-    return res.status(StatusCode.OK).json(products);
-  }
-
-  @Get('/query')
-  async getByQuery(@Request() req: RequestType, @Response() res: ResponseType) {
-    const { name } = req.query;
-    const products = await this
-      .TryCatch(() => ProductService.getProductsByQuery(`${name}`));
-
-    if (products && 'error' in products) {
-      const { code, error } = products;
-      return res.status(code).json({ error });
-    }
-
-    return res.status(StatusCode.OK).json(products);
+    return res.status(StatusCode.OK).json(result);
   }
 
   @Get('/:id')
-  async getById(@Request() req: RequestType, @Response() res: ResponseType) {
+  async getProductById(@Request() req: RequestType, @Response() res: ResponseType) {
     const { id } = req.params;
     const product = await this
       .TryCatch(() => ProductService.getProductById(Number(id)));
