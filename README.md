@@ -20,7 +20,7 @@ Com poucos passos é possível adicionar um novo fornecedor editando o arquivo p
 ### Como utilizar:
   > Clone o projeto e certifique-se que as portas **5432** e **3001** estejam livres.
   - Dentro do diretório do projeto, rode o comando:
-    -  `docker-compose up` ou com a flag `docker-compose up -d` (destaca o container em segundo plano).
+    -  `docker compose up` ou com a flag `docker compose up -d` (destaca o container em segundo plano).
   ```
   💡 Ao final deste ReadMe, constam as possíveis rotas da API
   ```
@@ -28,7 +28,7 @@ Com poucos passos é possível adicionar um novo fornecedor editando o arquivo p
 ### Ao finalizar, para encerrar o server:
 > Ainda no diretório, você pode derrubar o conteiner e apagar as imagens e networks geradas com o seguinte comando:
 ```
-docker-compose down && docker image rm an-awesome-api postgres:13-alpine node:14-alpine
+docker compose down && docker image rm an-awesome-api postgres:13-alpine node:14-alpine
 ```
 
 ### Considerações finais:

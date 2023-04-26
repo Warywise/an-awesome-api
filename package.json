@@ -4,9 +4,10 @@
   "description": "API Rest desenvolvida com o intuito de fornecer dados para um front-end específico, que será um e-commerce.",
   "main": "src/index.js",
   "scripts": {
-    "prestart": "npx prisma db push && ts-node prisma/seeds/seed.ts",
+    "seed": "npx prisma db push && ts-node prisma/seeds/seed.ts",
     "start": "npm run build && node ./dist/src/index.js",
     "dev": "nodemon --watch src src/index.ts js,ts",
+    "docker-start": "npm run seed && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
