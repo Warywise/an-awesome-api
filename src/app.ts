@@ -25,7 +25,7 @@ const logger = pinoHttp({
       statusCode: res.statusCode,
     })
   },
-  transport: process.env.NODE_ENV === 'development' ? {
+  transport: process.env.DEV ? {
     target: 'pino-pretty',
     options: {
       colorize: true

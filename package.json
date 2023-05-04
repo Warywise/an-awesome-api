@@ -10,7 +10,7 @@
     "docker-start": "npm run seed && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "vercel-build": "prisma generate",
-    "build": "tsc"
+    "build": "tsc && rm -rf dist/prisma/seeds"
   },
   "repository": {
     "type": "git",
